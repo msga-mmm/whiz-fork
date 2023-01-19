@@ -41,6 +41,7 @@ jobs:
       - name: Zip
         run: |
           zip -9 "whiz-${{ env.build_reference }}.zip" "whiz${{ matrix.suffix }}"
+        shell: bash
         working-directory: ${{ env.build_path }}
 
       - uses: ncipollo/release-action@v1
