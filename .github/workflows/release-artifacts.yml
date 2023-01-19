@@ -33,7 +33,8 @@ jobs:
         run: |
           cargo build --locked --release --target "${{ matrix.target }}"
 
-      - run: |
+      - name: Export enviroment variables
+        run: |
           echo "build_reference=${{ github.ref_name }}-${{ matrix.target }}" >> $GITHUB_ENV
           echo "build_path=target/${{ matrix.target }}/release" >> $GITHUB_ENV
 
