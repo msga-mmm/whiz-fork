@@ -48,9 +48,20 @@ jobs:
           mv "${{ env.build_path }}/${{ env.build_name }}" .
           7z \
           a \
-          -mm=Deflate \
-          -mfb=258 \
-          -mpass=15 \
+          -t7z \
+          -mx=9 \
+          -mfb=273 \
+          -ms \
+          -md=31 \
+          -myx=9 \
+          -mtm=- \
+          -mmt \
+          -mmtf \
+          -md=1536m \
+          -mmf=bt3 \
+          -mmc=10000 \
+          -mpb=0 \
+          -mlc=0 \
           "${{ env.artifact_name }}" \
           "${{ env.build_name }}"
 
