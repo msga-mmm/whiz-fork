@@ -61,6 +61,5 @@ jobs:
 
       - uses: ncipollo/release-action@v1
         with:
-          allowUpdates: true
           generateReleaseNotes: true
           artifacts: "${{ env.artifact_name }}"
