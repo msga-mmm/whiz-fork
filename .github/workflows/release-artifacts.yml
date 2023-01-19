@@ -17,9 +17,9 @@ jobs:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             suffix: ""
-          - os: windows-latest
-            target: x86_64-pc-windows-msvc
-            suffix: ".exe"
+          # - os: windows-latest
+          #   target: x86_64-pc-windows-msvc
+          #   suffix: ".exe"
     permissions:
       contents: write
     defaults:
@@ -44,14 +44,14 @@ jobs:
 
       - name: Export enviroment variables
         run: |
-          echo "artifact_name=whiz-${{ github.ref_name }}-${{ matrix.target }}.tar.gz" >> $GITHUB_ENV
+          echo "artifact_name=whiz-${{ github.ref_name }}-${{ matrix.target }}.zip" >> $GITHUB_ENV
           echo "build_name=whiz${{ matrix.suffix }}" >> $GITHUB_ENV
           echo "build_path=target/${{ matrix.target }}/release" >> $GITHUB_ENV
 
       - name: Zip
         run: |
           mv "${{ env.build_path }}/${{ env.build_name }}" .
-          tar czvf \
+          zip -9 \
           "${{ env.artifact_name }}" \
           "${{ env.build_name }}"
 
