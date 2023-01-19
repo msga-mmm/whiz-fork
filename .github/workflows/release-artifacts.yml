@@ -41,8 +41,8 @@ jobs:
       - name: Zip
         run: |
           # maximum ZIP compression
-          7z a -mm=Deflate -mfb=258 -mpass=15 ${{ env.build }}.zip whiz${{ matrix.suffix }}
-        working-directory: ${{ env.build_path }}
+          7z a -mm=Deflate -mfb=258 -mpass=15 "${{ env.build }}.zip" "whiz${{ matrix.suffix }}"
+        working-directory: "${{ env.build_path }}"
 
       - uses: ncipollo/release-action@v1
         with:
