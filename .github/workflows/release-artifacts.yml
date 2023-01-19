@@ -41,7 +41,7 @@ jobs:
       - name: Zip
         run: |
           # maximum ZIP compression
-          7z a -mm=Deflate -mfb=258 -mpass=15 -r ${{ env.build }}.zip ${{ env.build }}
+          7z a -mm=Deflate -mfb=258 -mpass=15 ${{ env.build }}.zip ${{ env.build }}
         working-directory: ${{ env.build_path }}
 
       - uses: ncipollo/release-action@v1
