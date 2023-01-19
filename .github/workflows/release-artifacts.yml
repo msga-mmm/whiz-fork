@@ -28,6 +28,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           key: ${{ runner.os }}
+          cache-on-failure: true
 
       - name: Build
         run: |
@@ -41,8 +42,9 @@ jobs:
           ls
 
       - name: Zip
+        shell: bash
+        # best compression
         run: |
-          # maximum ZIP compression
           7z          \
           a           \
           -mm=Deflate \
