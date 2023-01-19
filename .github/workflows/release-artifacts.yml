@@ -22,15 +22,11 @@ jobs:
             suffix: .exe
     permissions:
       contents: write
-    defaults:
-      run:
-        working-directory: "target/${{ matrix.target }}/release"
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
         with:
-          working-directory: "."
           key: ${{ runner.os }}
 
       - name: Build
@@ -39,12 +35,14 @@ jobs:
 
       - run: |
           echo "build_reference=${{ github.ref_name }}-${{ matrix.target }}" >> $GITHUB_ENV
+          echo "build_path=target/${{ matrix.target }}/release" >> $GITHUB_ENV
 
       - name: Zip
         run: |
           zip -9 "whiz-${{ env.build_reference }}.zip" "whiz${{ matrix.suffix }}"
+        working-directory: ${{ env.build_path }}
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "whiz-${{ env.build_reference }}.zip"
+          artifacts: "${{ env.build_path }}/whiz-${{ env.build_reference }}.zip"
           generateReleaseNotes: true
