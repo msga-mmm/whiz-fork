@@ -19,7 +19,7 @@ jobs:
             suffix: ""
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-            suffix: .exe
+            suffix: ".exe"
     permissions:
       contents: write
     defaults:
@@ -39,7 +39,7 @@ jobs:
 
       - name: Export enviroment variables
         run: |
-          echo "artifact_name=whiz-${{ github.ref_name }}-${{ matrix.target }}" >> $GITHUB_ENV
+          echo "artifact_name=whiz-${{ github.ref_name }}-${{ matrix.target }}.zip" >> $GITHUB_ENV
           echo "build_name=whiz${{ matrix.suffix }}" >> $GITHUB_ENV
           echo "build_path=target/${{ matrix.target }}/release" >> $GITHUB_ENV
 
@@ -51,11 +51,11 @@ jobs:
           -mm=Deflate \
           -mfb=258 \
           -mpass=15 \
-          ${{ env.artifact_name }} \
-          ${{ env.build_name }}
+          "${{ env.artifact_name }}" \
+          "${{ env.build_name }}"
 
       - uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           generateReleaseNotes: true
-          artifacts: "${{ env.artifact_name }}.zip"
+          artifacts: "${{ env.artifact_name }}"
