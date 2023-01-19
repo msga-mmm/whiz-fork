@@ -37,6 +37,8 @@ jobs:
         run: |
           echo "build_name=whiz-${{ github.ref_name }}-${{ matrix.target }}" >> $GITHUB_ENV
           echo "build_path=target/${{ matrix.target }}/release" >> $GITHUB_ENV
+          pwd
+          ls
 
       - name: Zip
         run: |
@@ -46,12 +48,10 @@ jobs:
           -mm=Deflate \
           -mfb=258    \
           -mpass=15   \
-          "${{ env.build_name }}.zip" "${{ env.executable }}/whiz${{ matrix.suffix }}"
-          pwd
-          ls
+          "${{ env.build_name }}.zip" "${{ env.build_path }}/whiz${{ matrix.suffix }}"
 
       - uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           generateReleaseNotes: true
-          artifacts: "${{ env.build_path }}/${{ env.build_name }}.zip"
+          artifacts: "${{ env.build_name }}.zip"
