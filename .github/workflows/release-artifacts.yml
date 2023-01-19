@@ -40,20 +40,18 @@ jobs:
           echo "build_path=target/${{ matrix.target }}/release" >> $GITHUB_ENV
           pwd
           ls
-          cd ${{ env.build_path }}
+
+          echo "7z a ${{ env.build_name }}.zip ${{ env.build_path }}/whiz${{ matrix.suffix }}"
+
+      - name: Debug
+        run: |
           pwd
           ls
+        working-directory: ${{ env.build_path }}
 
       - name: Zip
-        shell: bash
-        # best compression
         run: |
-          7z          \
-          a           \
-          -mm=Deflate \
-          -mfb=258    \
-          -mpass=15   \
-          "${{ env.build_name }}.zip" "${{ env.build_path }}/whiz${{ matrix.suffix }}"
+          7z a "${{ env.build_name }}.zip" "${{ env.build_path }}/whiz${{ matrix.suffix }}"
 
       - uses: ncipollo/release-action@v1
         with:

@@ -2,6 +2,7 @@ use actix::prelude::*;
 use whiz::{
     actors::{command::CommandActor, console::ConsoleActor, watcher::WatcherActor},
     config::Config,
+    subcommands::upgrade,
     utils::recurse_config_file,
 };
 
@@ -9,11 +10,14 @@ use anyhow::Result;
 
 use std::process;
 
-use clap::Parser;
+use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 struct Args {
+    #[clap(subcommand)]
+    command: Option<Command>,
+
     #[clap(short, long, default_value = "whiz.yaml")]
     file: String,
 
@@ -32,8 +36,21 @@ struct Args {
     list_jobs: bool,
 }
 
+#[derive(Subcommand, Debug)]
+enum Command {
+    /// Upgrade to the latest version of bun
+    Upgrade,
+}
+
 fn main() -> Result<()> {
     let args = Args::parse();
+
+    if let Some(command) = &args.command {
+        match command {
+            Command::Upgrade => upgrade::upgrade().unwrap(),
+        }
+        process::exit(0);
+    };
 
     let (config_file, config_path) = {
         match recurse_config_file(&args.file) {
