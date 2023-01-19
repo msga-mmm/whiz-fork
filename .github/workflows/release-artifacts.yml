@@ -54,7 +54,7 @@ jobs:
           7z \
           a \
           -mm=Deflate \
-          -mfb=258 \
+          -mfb=273 \
           -mpass=15 \
           "${{ env.artifact_name }}" \
           "${{ env.build_name }}"
