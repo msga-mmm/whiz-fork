@@ -38,10 +38,13 @@ jobs:
           echo "build_reference=${{ github.ref_name }}-${{ matrix.target }}" >> $GITHUB_ENV
           echo "build_path=target/${{ matrix.target }}/release" >> $GITHUB_ENV
 
-      - name: Zip
-        run: |
-          zip -9 "whiz-${{ env.build_reference }}.zip" "whiz${{ matrix.suffix }}"
-        shell: bash
+      - uses: thedoctor0/zip-release@0.7.0
+        with:
+          type: 'zip'
+          filename: "whiz-${{ env.build_reference }}.zip"
+          path: "whiz${{ matrix.suffix }}"
+        # maximum level of compression
+        custom: -9
         working-directory: ${{ env.build_path }}
 
       - uses: ncipollo/release-action@v1
