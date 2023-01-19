@@ -35,6 +35,7 @@ jobs:
           cargo build --locked --release --target "${{ matrix.target }}"
 
       - name: Export enviroment variables
+        shell: bash
         run: |
           echo "build_name=whiz-${{ github.ref_name }}-${{ matrix.target }}" >> $GITHUB_ENV
           echo "build_path=target/${{ matrix.target }}/release" >> $GITHUB_ENV
