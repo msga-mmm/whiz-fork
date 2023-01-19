@@ -45,5 +45,6 @@ jobs:
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ env.build_path }}/whiz-${{ env.build_reference }}.zip"
+          allowUpdates: true
           generateReleaseNotes: true
+          artifacts: "${{ env.build_path }}/whiz-${{ env.build_reference }}.zip"
