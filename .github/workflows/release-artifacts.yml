@@ -45,7 +45,7 @@ jobs:
           path: "whiz${{ matrix.suffix }}"
           # maximum level of compression
           custom: -9
-        working-directory: ${{ env.build_path }}
+        directory: ${{ env.build_path }}
 
       - uses: ncipollo/release-action@v1
         with:
