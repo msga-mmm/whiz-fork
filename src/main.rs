@@ -36,6 +36,7 @@ struct Args {
     list_jobs: bool,
 }
 
+/// Set of subcommands
 #[derive(Subcommand, Debug)]
 enum Command {
     /// Upgrade to the latest version of bun
