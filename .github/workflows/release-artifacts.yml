@@ -17,9 +17,9 @@ jobs:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             suffix: ""
-          # - os: windows-latest
-          #   target: x86_64-pc-windows-msvc
-          #   suffix: ".exe"
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            suffix: ".exe"
     permissions:
       contents: write
     defaults:
@@ -27,7 +27,6 @@ jobs:
         shell: bash
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@stable
       - uses: actions/cache@v3
         with:
           path: |
@@ -37,6 +36,7 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - uses: dtolnay/rust-toolchain@stable
 
       - name: Build
         run: |
@@ -51,7 +51,11 @@ jobs:
       - name: Zip
         run: |
           mv "${{ env.build_path }}/${{ env.build_name }}" .
-          zip -9 \
+          7z \
+          a \
+          -mm=Deflate \
+          -mfb=258 \
+          -mpass=15 \
           "${{ env.artifact_name }}" \
           "${{ env.build_name }}"
 
