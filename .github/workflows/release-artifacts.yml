@@ -1,0 +1,52 @@
+name: Release artifacts
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            suffix: ""
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            suffix: ""
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            suffix: .exe
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: "target/${{ matrix.target }}/release"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          working-directory: "."
+          key: ${{ runner.os }}
+
+      - name: Build
+        run: |
+          cargo build --locked --release --target "${{ matrix.target }}"
+
+      - run: |
+          echo "build_reference=${{ github.ref_name }}-${{ matrix.target }}" >> $GITHUB_ENV
+
+      - name: Zip
+        run: |
+          zip -9 "whiz-${{ env.build_reference }}.zip" "whiz${{ matrix.suffix }}"
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "whiz-${{ env.build_reference }}.zip"
+          generateReleaseNotes: true
