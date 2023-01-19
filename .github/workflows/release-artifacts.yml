@@ -37,7 +37,10 @@ jobs:
       - name: Export enviroment variables
         run: |
           echo "build_name=whiz-${{ github.ref_name }}-${{ matrix.target }}" >> $GITHUB_ENV
-          echo "build_path=./target/${{ matrix.target }}/release" >> $GITHUB_ENV
+          echo "build_path=target/${{ matrix.target }}/release" >> $GITHUB_ENV
+          pwd
+          ls
+          cd ${{ env.build_path }}
           pwd
           ls
 
