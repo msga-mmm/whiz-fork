@@ -44,18 +44,14 @@ jobs:
 
       - name: Export enviroment variables
         run: |
-          echo "artifact_name=whiz-${{ github.ref_name }}-${{ matrix.target }}.zip" >> $GITHUB_ENV
+          echo "artifact_name=whiz-${{ github.ref_name }}-${{ matrix.target }}.tar.gz" >> $GITHUB_ENV
           echo "build_name=whiz${{ matrix.suffix }}" >> $GITHUB_ENV
           echo "build_path=target/${{ matrix.target }}/release" >> $GITHUB_ENV
 
       - name: Zip
         run: |
           mv "${{ env.build_path }}/${{ env.build_name }}" .
-          7z \
-          a \
-          -mm=Deflate \
-          -mfb=258 \
-          -mpass=15 \
+          tar czvf \
           "${{ env.artifact_name }}" \
           "${{ env.build_name }}"
 
