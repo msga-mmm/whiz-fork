@@ -35,19 +35,23 @@ jobs:
 
       - name: Export enviroment variables
         run: |
-          echo "build=whiz-${{ github.ref_name }}-${{ matrix.target }}" >> $GITHUB_ENV
+          echo "build_name=whiz-${{ github.ref_name }}-${{ matrix.target }}" >> $GITHUB_ENV
           echo "build_path=target/${{ matrix.target }}/release" >> $GITHUB_ENV
 
       - name: Zip
         run: |
           # maximum ZIP compression
-          7z a -mm=Deflate -mfb=258 -mpass=15 "${{ env.build }}.zip" "whiz${{ matrix.suffix }}"
+          7z          \
+          a           \
+          -mm=Deflate \
+          -mfb=258    \
+          -mpass=15   \
+          "${{ env.build_name }}.zip" "${{ env.executable }}/whiz${{ matrix.suffix }}"
           pwd
           ls
-        working-directory: "${{ env.build_path }}"
 
       - uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           generateReleaseNotes: true
-          artifacts: "${{ env.build_path }}/${{ env.build }}.zip"
+          artifacts: "${{ env.build_path }}/${{ env.build_name }}.zip"
