@@ -19,7 +19,7 @@ fn creates_log_files() {
     ];
 
     for (path, expected_content) in expected {
-        let path_file = test.test_dir.path().join(path);
+        let path_file = test.test_dir.join(path);
         assert!(path_file.exists(), "should create log file: {path}",);
 
         let content = fs::read_to_string(path_file).unwrap();
