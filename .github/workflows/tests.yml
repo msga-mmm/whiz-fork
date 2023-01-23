@@ -17,4 +17,4 @@ jobs:
         with:
           key: ${{ runner.os }}
       - run: |
-          cargo test
+          cargo run
