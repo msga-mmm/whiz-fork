@@ -1,22 +1,13 @@
-use std::{fs, path::Path};
+use std::fs;
+
+use crate::utils::run_config_file_test;
 
 #[test]
 fn creates_log_files() {
-    let test_workdir = Path::new("./tests/pipe");
-    let test_temp_folder = test_workdir.join("logs");
-
-    // clean temporal folder for tests
-    if test_temp_folder.exists() {
-        fs::remove_dir_all(&test_temp_folder).unwrap();
-    }
-
-    let mut command =
-        rexpect::spawn("cargo run -- -f tests/pipe/log_file.yaml", Some(5_000)).unwrap();
-    let output = command.exp_string("Exited(0)").unwrap();
-    command.send_control('c').unwrap();
+    let test = run_config_file_test("tests/pipe/log_file.yaml").unwrap();
 
     assert!(
-        !output.contains("[server]"),
+        !test.output.contains("[server]"),
         "all output should be redirected to log files",
     );
 
@@ -28,7 +19,7 @@ fn creates_log_files() {
     ];
 
     for (path, expected_content) in expected {
-        let path_file = test_workdir.join(path);
+        let path_file = test.test_dir.path().join(path);
         assert!(path_file.exists(), "should create log file: {path}",);
 
         let content = fs::read_to_string(path_file).unwrap();
@@ -37,10 +28,5 @@ fn creates_log_files() {
             "wrong content for log file {}",
             path
         );
-    }
-
-    // clean all generated temp files
-    if test_temp_folder.exists() {
-        fs::remove_dir_all(&test_temp_folder).unwrap();
     }
 }

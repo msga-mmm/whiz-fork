@@ -1546,6 +1546,7 @@ dependencies = [
  "serde_yaml",
  "strip-ansi-escapes",
  "subprocess",
+ "tempfile",
  "textwrap",
  "tui",
  "url",

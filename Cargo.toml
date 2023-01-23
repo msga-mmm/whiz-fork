@@ -30,3 +30,4 @@ url = "2.3.1"
 
 [dev-dependencies]
 rexpect = "0.5.0"
+tempfile = "3.3.0"
