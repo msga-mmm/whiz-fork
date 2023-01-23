@@ -27,3 +27,6 @@ subprocess = "0.2.9"
 textwrap = "0.16.0"
 tui = "0.19.0"
 url = "2.3.1"
+
+[dev-dependencies]
+rexpect = "0.5.0"

@@ -1,0 +1,8 @@
+log_file:
+    command: |
+        echo "[server] GET /home 200"
+        echo "[server] GET /settings 200"
+        echo "[server] POST /users 500"
+        echo "[server] UPDATE /users 200"
+    pipe:
+        '.*(?P<HTTP_METHOD>(GET|POST|UPDATE)) /(?P<PATH>\w+) .*': './logs/${PATH}/${HTTP_METHOD}.log'
